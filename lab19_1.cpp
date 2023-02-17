@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 #include<cstdlib>
+#include<cctype>
 
 using namespace std;
 
@@ -20,20 +21,64 @@ string toUpperStr(string x){
     return y;
 }
 
-void importDataFromFile(){
+void importDataFromFile(string filename, vector<int> &names, vector<int> &scores, vector<int> &grades){
+    string s;
+    ifstream fin(filename);
+    while(getline(fin,s))
+    {
+        char x[] = s;
+        char format[] = "%[^:]: %f %f %f";
+        char name[100];
+        int a,b,c;
+        sscanf(x,format,name,&a,&b,&c);
+        names.push_back(name);
+        scores.push_back(a+b);
+        grades.push_back(score2grade(a+b));
 
+    }
 }
 
-void getCommand(){
-
+void getCommand(string command,string key){
+    cout << "Please input your command: "
+    cin >> key;
+    char text[] = key;
+    char format[] = "%s %s";
+    char com[100];
+    char norg[100];
+    sscanf(text,format,com,norg);
+    command = com;
+    key = norg;
 }
 
-void searchName(){
-
+void searchName(vector<int> &names, vector<int> &scores, vector<int> &grades, string key){
+    int number,k;
+    for(int i=0; i<names.size(); i++)
+    {
+        if(key == toUpperStr(names[i]))
+        {
+            k=0;
+            number = i;
+            break;
+        }else{
+            k=1;
+        }
+    }
+    if(k == 0)
+    {
+        cout << "---------------------------------" << endl;
+        cout << names[number] << "'s score " << scores[number] << endl << names[number] << "'s grade " << grades[number];
+        cout << "---------------------------------" << endl;
+    }else{
+        cout << "---------------------------------" << endl;
+        cout << "Cannot found.";
+        cout << "---------------------------------" << endl;
+    }
 }
 
-void searchGrade(){
-
+void searchGrade(vector<int> &names, vector<int> &scores, vector<int> &grades, string key){
+    for(int i=0; i<grades.size(); i++){
+        
+    }
 }
 
 
